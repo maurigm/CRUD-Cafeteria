@@ -1,24 +1,18 @@
 import React from "react";
 import { Container, Table } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import Product from "./Product/Product";
+import { Link } from "react-router-dom";
 
-const ProductTable = ({ products, URL, getApi }) => {
+const ProductTable = ({products}) => {
   return (
     <div>
       <Container className="py-5">
         <div className="d-flex align-items-center justify-content-between">
           <h1>Products Table</h1>
-          <Link
-            to="/product/create"
-            className="btn-yellow text-decoration-none text-center"
-          >
-            Add Product
-          </Link>
+          <Link className="btn-yellow text-decoration-none text-center">Add Product</Link>
         </div>
         <hr />
         {/* Table of products */}
-        {products.length !== 0 ?
         <Table bordered hover responsive className="align-middle mt-3">
           <thead>
             <tr>
@@ -31,22 +25,13 @@ const ProductTable = ({ products, URL, getApi }) => {
             </tr>
           </thead>
           <tbody>
-            {products.map((product) => (
-              <Product
-                key={product.id}
-                product={product}
-                URL={URL}
-                getApi={getApi}
-              />
-            ))}
+            { products.map( (product) => <Product key = {product.id} product= {product} /> )}
           </tbody>
         </Table>
-        :
-        <div className="no-products-found d-flex align-items-center justify-content-center">
         {/* No products found message */}
+        {/* <div className="no-products-found d-flex align-items-center justify-content-center">
           <h1>🥐 No products found ☕</h1>
-          </div>
-        }
+        </div> */}
       </Container>
     </div>
   );

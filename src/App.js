@@ -7,59 +7,51 @@ import ProductsTable from "./components/views/ProductsTable/ProductsTable";
 import ProductCreate from "./components/views/ProductCreate/ProductCreate";
 import ProductEdit from "./components/views/ProductEdit/ProductEdit";
 import Error404 from "./components/views/Error404/Error404";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import { useEffect, useState } from "react";
 
 function App() {
-  //State
-  const [products, setProducts] = useState([]);
-  //Variable de entorno
+
+
+  //SE DEFINE LA VBLE QUE VA A ALMACENAR LA CONSULTA DE LA API
+  const [products, setProducts]= useState([]);
+
+  //SE DEFINE LA VARIABLE QUE ALMACENA LA VBLE DE ENTORNO
   const URL = process.env.REACT_APP_API_CAFETERIA;
 
-  useEffect(() => {
+
+  useEffect( () => {
     getApi();
-  }, []);
+    } , [] );
 
   const getApi = async () => {
     try {
       const res = await fetch(URL);
-      const productApi = await res.json();
-      setProducts(productApi);
+      const productsApi = await res.json();
+      setProducts(productsApi);
+      
     } catch (error) {
       console.log(error);
     }
-  };
+  }
+  
 
   return (
-    <div>
-      <BrowserRouter>
-        <Navigation />
-        <main>
-          <Routes>
-            <Route exact path="/" element={<Home products={products} />} />
-            <Route
-              exact
-              path="/product/table"
-              element={
-                <ProductsTable products={products} URL={URL} getApi={getApi} />
-              }
-            />
-            <Route
-              exact
-              path="/product/create"
-              element={<ProductCreate URL={URL} getApi={getApi} />}
-            />
-            <Route
-              exact
-              path="/product/edit/:id"
-              element={<ProductEdit URL={URL} getApi={getApi} />}
-            />
-            <Route exact path="*" element={<Error404 />} />
-          </Routes>
-        </main>
-        <Footer />
-      </BrowserRouter>
-    </div>
+      <div>
+        <Router>
+          <Navigation />
+          <main>
+            <Routes>
+              <Route path="/" element= {<Home />} />
+              <Route path="/products/table" element={<ProductsTable products = {products} />} />
+              <Route path="/products/create" element={<ProductCreate/>} />
+              <Route path="/products/edit" element={<ProductEdit/>} />
+              <Route path="*" element={<Error404/>} />
+            </Routes>
+          </main>
+          <Footer />
+        </Router>
+      </div>
   );
 }
 
